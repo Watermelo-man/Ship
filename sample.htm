@@ -22,7 +22,11 @@
       var ship= {
       canvas :  function(){return(document.getElementById("canvas"))},
 
+      canvas2 :  function(){return(document.getElementById("canvas2"))},
+
       ctx: function(){ return(canvas.getContext("2d"))},
+
+      ctx2: function(){ return(canvas2.getContext("2d"))},
 
       init : function(ctx, deltaX,deltaY){
       ctx.beginPath();
@@ -46,6 +50,7 @@
       var i=0;
       var j=0;
       var canvas = ship.canvas();
+      var canvas2 = ship.canvas2();
       var staticvar = 0;
       var stepdraw = function(){
       i++;
