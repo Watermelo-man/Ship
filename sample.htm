@@ -19,9 +19,7 @@
     <canvas id="canvas"width="1920" height="1080" ></canvas>
     <canvas id="canvas2"width="1920" height="1080" ></canvas>
     <script>
-    var ship= {
-
-
+      var ship= {
       canvas :  function(){return(document.getElementById("canvas"))},
 
       ctx: function(){ return(canvas.getContext("2d"))},
@@ -30,7 +28,6 @@
       ctx.beginPath();
       ctx.arc(110+deltaX,110+deltaY,50,Math.PI*2,0); 
       ctx.stroke();
-
       },
 
       initghost : function(ctx2, deltaX,deltaY){
@@ -44,7 +41,7 @@
       },
 
       returnallctx: function (){return (canvas)}
-    }
+      }
 
       var i=0;
       var j=0;
@@ -55,13 +52,11 @@
       j++;
       if (i >= 100 && i<= 300){
         i++;
-        //j++;
         j=j;
       }
       if (i==1000){i=0;j=0;}
       ship.init(canvas.getContext("2d"),i,j);
       ship.initghost(canvas2.getContext("2d"),i,j);
-
       setTimeout(stepclean,0);
       }
 
@@ -70,19 +65,17 @@
       }  
 
       var stepclean = function() {
-       ship.clean(canvas.getContext("2d"));
-      
-       if (staticvar == 0){
-       setTimeout(step2clean);
+      ship.clean(canvas.getContext("2d"));
+      if (staticvar == 0){
+        setTimeout(step2clean);
         staticvar = 1;
-        if (staticvar == 1)
-        {staticvar=0;} 
-         setTimeout(stepdraw,0);
-       }
+        }
+      if (staticvar == 1){staticvar=0;} 
+      setTimeout(stepdraw,0);
       }
 
-     // setTimeout(stepdraw,0);
-stepdraw();
+     
+      stepdraw();
     </script>
   </body>
 </html>
