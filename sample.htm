@@ -16,19 +16,14 @@
     </style>
   </head>
   <body>
-    <div id="canvas-container">
-    <canvas id="canvas"></canvas>
-    <canvas id="canvas2" />
-    </div>
+    <canvas id="canvas"width="1920" height="1080" ></canvas>
+    <canvas id="canvas2"width="1920" height="1080" ></canvas>
     <script>
-    //<canvas id="canvas"width="1920" height="1080" ></canvas>
-    //<canvas id="canvas2"width="1920" height="1080" ></canvas>
     var ship= {
-      
+
       canvas :  function(){return(document.getElementById("canvas"))},
 
       ctx: function(){ return(canvas.getContext("2d"))},
-
 
       init : function(ctx, deltaX,deltaY){
       ctx.beginPath();
@@ -38,18 +33,14 @@
       },
 
       initghost : function(ctx2, deltaX,deltaY){
-
       ctx2.beginPath();
       ctx2.arc(110+deltaX,110+deltaY,50,Math.PI*2,0); 
       ctx2.stroke();
-
       },
 
       clean: function(ctx){
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       },
-
-
 
       returnallctx: function (){return (canvas)}
     }
@@ -57,27 +48,38 @@
       var i=0;
       var j=0;
       var canvas = ship.canvas();
-     
+      var staticvar = 0;
       var stepdraw = function(){
       i++;
       j++;
-      if (i >= 100 && i<= 200){
+      if (i >= 100 && i<= 300){
         i++;
         //j++;
         j=j;
       }
       if (i==1000){i=0;j=0;}
       ship.init(canvas.getContext("2d"),i,j);
-      ship.initghost(canvas.getContext("2d"),i,j);
-      //ship.clean(canvas.getContext("2d"));
-      //ship.clean(canvas.getContext("2d"))
+      ship.initghost(canvas2.getContext("2d"),i,j);
+
       setTimeout(stepclean,0);
       }
 
+      var step2clean = function(){
+      ship.clean(canvas2.getContext("2d"));
+      }  
+
       var stepclean = function() {
-        ship.clean(canvas.getContext("2d"));
-       setTimeout(stepdraw,0);
+       ship.clean(canvas.getContext("2d"));
+      
+       if (staticvar == 0){
+       setTimeout(step2clean);
+        staticvar = 1;
+        if (staticvar == 1)
+        {staticvar=0;} 
+         setTimeout(stepdraw,0);
+       }
       }
+
      // setTimeout(stepdraw,0);
 stepdraw();
     </script>
