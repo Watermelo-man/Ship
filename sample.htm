@@ -16,24 +16,12 @@
     </style>
   </head>
   <body>
-<<<<<<< HEAD
     <canvas id="canvas"width="1920" height="1080" ></canvas>
     <canvas id="canvas2"width="1920" height="1080" ></canvas>
     <script>
     var ship= {
 
-=======
-        <canvas id="canvas"width="1920" height="1080" ></canvas>
-    <canvas id="canvas2"width="1920" height="1080" ></canvas>
- 
-    </div>
-    <script>
 
-    var ship= {
-   //      <div id="canvas-container">
-   // <canvas id="canvas"></canvas>
-   // <canvas id="canvas2" />
->>>>>>> 66adf076a4032d35d0d2f60d18eee82e074f621c
       canvas :  function(){return(document.getElementById("canvas"))},
 
       ctx: function(){ return(canvas.getContext("2d"))},
@@ -73,12 +61,7 @@
       if (i==1000){i=0;j=0;}
       ship.init(canvas.getContext("2d"),i,j);
       ship.initghost(canvas2.getContext("2d"),i,j);
-<<<<<<< HEAD
 
-=======
-      //ship.clean(canvas.getContext("2d"));
-      //ship.clean(canvas.getContext("2d"))
->>>>>>> 66adf076a4032d35d0d2f60d18eee82e074f621c
       setTimeout(stepclean,0);
       }
 
