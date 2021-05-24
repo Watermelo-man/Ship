@@ -8,7 +8,7 @@
       position: relative;
       overflow: auto;
       }
-      #canvas, #canvas2 {
+      #canvas, #canvas2, #canvas3 {
       position: absolute;
       width: 1920px;
       height: 1080px;
@@ -18,6 +18,7 @@
   <body>
     <canvas id="canvas"width="1920" height="1080" ></canvas>
     <canvas id="canvas2"width="1920" height="1080" ></canvas>
+    <canvas id="canvas3"width="1920" height="1080" ></canvas>
     <script>
       var ship= {
       canvas :  function(){return(document.getElementById("canvas"))},
@@ -45,21 +46,35 @@
       },
 
       returnallctx: function (){return (canvas)}
+
       }
 
+      var move = function(){
+        //тут пишется закон двжения этого хуебеса
+        i++;
+        vy = vy + 10*0.1;
+        j = j + vy*0.1;
+      }
+      var vy =0;
+      var vx = 0;
       var i=0;
       var j=0;
       var canvas = ship.canvas();
       var canvas2 = ship.canvas2();
+      var canvas3 = document.getElementById("canvas3");
       var staticvar = 0;
+
+      var ctx = canvas3.getContext("2d");
+      ctx.lineWidth = 10; // толщина линии
+      ctx.moveTo(0, 450); //передвигаем перо
+      ctx.lineTo(1000, 450); //рисуем линию
+      ctx.stroke();
+      ctx.lineWidth = 1;
+
       var stepdraw = function(){
-      i++;
-      j++;
-      if (i >= 100 && i<= 300){
-        i++;
-        j=j;
-      }
-      if (i==1000){i=0;j=0;}
+      move();
+      if (j>=282 ){vy = -0.8*vy;}
+      if (i==800){i=0;j=0;vy=0}
       ship.init(canvas.getContext("2d"),i,j);
       ship.initghost(canvas2.getContext("2d"),i,j);
       setTimeout(stepclean,0);
@@ -78,6 +93,7 @@
       if (staticvar == 1){staticvar=0;} 
       setTimeout(stepdraw,0);
       }
+
 
      
       stepdraw();
