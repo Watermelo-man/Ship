@@ -21,6 +21,9 @@
     <canvas id="canvas3"width="1920" height="1080" ></canvas>
     <script>
       var ship= {
+      coords : [],
+      spawnX:110,
+      spawnY:110,
       canvas :  function(){return(document.getElementById("canvas"))},
 
       canvas2 :  function(){return(document.getElementById("canvas2"))},
@@ -33,36 +36,47 @@
       ctx.beginPath();
       ctx.arc(110+deltaX,110+deltaY,50,Math.PI*2,0); 
       ctx.stroke();
+      coords = [110+deltaX,110+deltaY];
       },
 
       initghost : function(ctx2, deltaX,deltaY){
       ctx2.beginPath();
       ctx2.arc(110+deltaX,110+deltaY,50,Math.PI*2,0); 
       ctx2.stroke();
+
       },
 
       clean: function(ctx){
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       },
 
-      returnallctx: function (){return (canvas)}
+      returnallctx: function (){return (canvas)},
 
+      x : function(){return coords[0]},
+      y : function(){return coords[1]}
       }
 
       var move = function(){
         //тут пишется закон двжения этого хуебеса
-        i=i+5;
+
+        vx = vx -0*0.1;
+
+        i= i + vx*0.1;
         vy = vy + 10*0.1;
         j = j + vy*0.1;
+        
       }
       var vy =0;
       var vx = 0;
+      var accsx =0;
       var i=0;
       var j=0;
       var canvas = ship.canvas();
       var canvas2 = ship.canvas2();
       var canvas3 = document.getElementById("canvas3");
       var staticvar = 0;
+      var curx;
+      startvel = false; 
 
       var ctx = canvas3.getContext("2d");
       ctx.lineWidth = 10; // толщина линии
@@ -71,17 +85,24 @@
       ctx.stroke();
       ctx.lineWidth = 1;
 
+
+
       var stepdraw = function(){
       move();
-      if (j>=282 ){vy = -0.8*vy;}
-      if (i==800){i=0;j=0;vy=0}
+      if (j>=282 ){vy = -1*vy;j=282;vx=1*vx}
+      if (i>=800){vx=-vx;}
+      if (i<=0){vx=-vx;}
+      //i=0;j=0;
       ship.init(canvas.getContext("2d"),i,j);
       ship.initghost(canvas2.getContext("2d"),i,j);
+      //console.log(coords);
       setTimeout(stepclean,0);
+
       }
 
       var step2clean = function(){
       ship.clean(canvas2.getContext("2d"));
+      
       }  
 
       var stepclean = function() {
@@ -92,11 +113,19 @@
         }
       if (staticvar == 1){staticvar=0;} 
       setTimeout(stepdraw,0);
+
       }
 
+      stepdraw(ship.coords);
 
-     
-      stepdraw();
+            canvas3.addEventListener("mousedown",function() {
+        //console.log(Math.sqrt(Math.pow((event.pageX - ship.x()),2)));
+        if (Math.sqrt(Math.pow((event.pageX - ship.x()),2)) <= Math.abs(70) && Math.sqrt(Math.pow((event.pageY - ship.y()),2)) <= Math.abs(70)){
+        //startvel = ~startvel;
+        vx=(event.pageX - ship.x())*5;
+        console.log(accsx);
+      }
+      });
     </script>
   </body>
 </html>
