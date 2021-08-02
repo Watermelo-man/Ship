@@ -16,14 +16,22 @@
     </style>
   </head>
   <body>
+    <form name="search">
+    <input type="text" name="key" placeholder="Введите скорость по x"></input>
+    <input type="text" name="key" placeholder="Введите скорость по y"></input>
+    <input type="button" name="print" value="Печать" />
+</form>
     <canvas id="canvas"width="1920" height="1080" ></canvas>
     <canvas id="canvas2"width="1920" height="1080" ></canvas>
     <canvas id="canvas3"width="1920" height="1080" ></canvas>
     <script>
       var ship= {
       coords : [],
-      spawnX:110,
-      spawnY:110,
+
+      spawnX:500,
+
+      spawnY:500,
+
       canvas :  function(){return(document.getElementById("canvas"))},
 
       canvas2 :  function(){return(document.getElementById("canvas2"))},
@@ -59,32 +67,60 @@
       var move = function(){
         //тут пишется закон двжения этого хуебеса
         
+          var ax = Fx*0.1;
+          var ay = Fy*0.1;
+          
+    
+        if (start == 1 && vx==0){
+          vx=0.3;
+          vy=0.3;
+          start=2;
+        }
+
         if (vx<=0.2 && vx >=-0.2){
         i=i+speedx;
         vx=0;
+        //console.log(i);
         }
         else{  
         if (vx < 0)
-        vx = vx + 1*0.1;
+        vx = vx + (1*0.1);//+ax
         if (vx > 0)
-        vx = vx - 1*0.1;
+        vx = vx - (1*0.1);//+ax
         i= i + vx*0.1+speedx;
-        //console.log(i);
+        
         }
 
         if (vy<=0.2 && vy >=-0.2){
         j=j+speedy;
         vy=0;
+        //console.log(j);
         }
         else{
         if (vy < 0)
-        vy = vy + 2*0.1;
+        vy = vy + (1*0.1);//+ay
         if (vy > 0)
-        vy = vy - 2*0.1;
+        vy = vy - (1*0.1);//+ay
         j = j + vy*0.1+speedy;
-        //console.log(j);
+        
         }
       }
+      //пид
+      var out;
+      var Prop;
+      var IntegX;
+      var IntegY;
+      var IntegprevX;
+      var IntegprevY;
+      var Diff;
+      //пид коэффициенты
+      var Kp = 1;
+      var Ki = 1;
+      var Kd = 0;
+      //--------------
+      var start=0;
+      var Fx;
+      var Fy;
       var vy =0;
       var vx = 0;
       var accsx =0;
@@ -95,9 +131,11 @@
       var canvas3 = document.getElementById("canvas3");
       var staticvar = 0;
       var curx;
-      startvel = false; 
-      var speedx = 0.9;
-      var speedy = 0.9;
+      startvel = false;
+      spdxval = 0;
+      spdyval = 0; 
+      var speedx = spdxval;
+      var speedy = spdyval;
       var ctx = canvas3.getContext("2d");
       ctx.lineWidth = 10; // толщина линии
       ctx.moveTo(0, 1050); //передвигаем перо
@@ -108,7 +146,13 @@
       ctx.stroke();
       ctx.lineWidth = 1;
 
-
+      var PIDx = function(Kp,Ki,Kd,){
+        var out;
+        var Prop;
+        var IntegX;
+        var Diff;
+        //Prop = Kp*
+      }
 
       var stepdraw = function(){
       move();
@@ -116,8 +160,8 @@
       if (j>=900 ){vy = -1*vy;j=900;vx=1*vx;speedy=0}
       if (i>=1000){vx=-vx;i=1000;speedx=0;}
       if (i<=0){vx=-vx;i=0;speedx=0;}
-      speedx=0.9;
-      speedy=0.9;
+      speedx=spdxval;
+      speedy=spdyval;
       //i=0;j=0;
       ship.init(canvas.getContext("2d"),i,j);
       ship.initghost(canvas2.getContext("2d"),i,j);
@@ -145,18 +189,25 @@
 
       stepdraw(ship.coords);
 
-            canvas3.addEventListener("mousedown",function() {
+      canvas3.addEventListener("mousedown",function() {
         //console.log(Math.sqrt(Math.pow((event.pageX - ship.x()),2)));
         
-        if (Math.sqrt(Math.pow((event.pageX - ship.x()),2)) <= Math.abs(70) && Math.sqrt(Math.pow((event.pageY - ship.y()),2)) <= Math.abs(70)){
+        //if (Math.sqrt(Math.pow((event.pageX - ship.x()),2)) <= Math.abs(70) && Math.sqrt(Math.pow((event.pageY - ship.y()),2)) <= Math.abs(70)){
         //startvel = ~startvel;
-        vx=(event.pageX - ship.x())*2;
-        vy=(event.pageY - ship.y())*2;
-        //console.log(i);
-        //console.log(j);
+        vx=(event.pageX - ship.x())*1;
+        vy=(event.pageY - ship.y())*1;
+        var targetX = event.pageX;
+        var targetY = event.pageY;
+        if (start == 0)
+          start = 1;
+        console.log(Fx);
+        console.log(Fy);
+        console.log(coords[0]);
+        console.log(coords[1]);
       //}
-      }
+      //}
 });
+
     </script>
   </body>
 </html>
